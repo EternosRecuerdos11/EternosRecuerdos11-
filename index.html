@@ -5,617 +5,324 @@
 <title>Eternos Recuerdos 11</title>
 
 <style>
-
-/* ===== ESTILO GENERAL ===== */
 body{
-  margin:0;
-  font-family:'Segoe UI', sans-serif;
-  background:#f5efe6;
-  background-image:url("https://www.transparenttextures.com/patterns/flowers.png");
-  color:#333;
+margin:0;
+font-family:Arial;
+background:#f5efe6;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header{
-  background:#1e3a8a;
-  padding:25px;
-  text-align:center;
-  position:sticky;
-  top:0;
-  z-index:100;
+background:#1e3a8a;
+color:gold;
+padding:15px;
+text-align:center;
+position:sticky;
+top:0;
 }
 
-header h1{
-  margin:0;
-  font-size:42px;
-  color:gold;
-  letter-spacing:2px;
+header button{
+position:absolute;
+top:15px;
+border:none;
+padding:5px 10px;
+cursor:pointer;
 }
 
-/* ===== CARRITO ===== */
-.cart-icon{
-  position:absolute;
-  right:20px;
-  top:25px;
-  cursor:pointer;
-  font-size:22px;
-}
+#adminBtn{left:10px;}
+#cartBtn{right:10px;}
 
-.cart-count{
-  position:absolute;
-  top:-8px;
-  right:-10px;
-  background:red;
-  color:white;
-  border-radius:50%;
-  padding:2px 6px;
-  font-size:12px;
-}
-
-/* ===== INICIO ===== */
-.inicio{
-  text-align:center;
-  padding:50px 20px;
-}
-
-.inicio h2{
-  font-size:28px;
-  margin-bottom:10px;
-}
-
-.inicio p{
-  max-width:600px;
-  margin:auto;
-  line-height:1.6;
-}
-
-/* ===== MENÚ ===== */
-.menu{
-  margin-top:40px;
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:20px;
-}
-
-.menu-card{
-  width:200px;
-  background:white;
-  border-radius:15px;
-  overflow:hidden;
-  box-shadow:0 6px 15px rgba(0,0,0,0.1);
-  cursor:pointer;
-  transition:0.3s;
-}
-
-.menu-card:hover{
-  transform:scale(1.05);
-}
-
-.menu-card img{
-  width:100%;
-  height:140px;
-  object-fit:cover;
-}
-
-.menu-card h3{
-  margin:10px;
-}
-
-/* ===== SECCIONES ===== */
-.section{
-  display:none;
-  padding:20px;
-}
-
-.volver{
-  margin-bottom:15px;
-  cursor:pointer;
-  color:#1e3a8a;
-}
-
-/* ===== GRID PRODUCTOS ===== */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:15px;
-}
-
+/* GENERAL */
+.section{display:none;padding:20px;}
+.menu{display:flex;flex-wrap:wrap;gap:15px;justify-content:center;}
 .card{
-  background:white;
-  border-radius:15px;
-  padding:10px;
-  box-shadow:0 5px 10px rgba(0,0,0,0.1);
-  text-align:center;
-  transition:0.3s;
+background:white;
+padding:10px;
+border-radius:10px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+text-align:center;
 }
 
-.card:hover{
-  transform:scale(1.05);
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+gap:10px;
 }
 
-.card img{
-  width:100%;
-  border-radius:10px;
+/* COLORES */
+.color{
+width:30px;
+height:30px;
+border-radius:50%;
+display:inline-block;
+margin:5px;
+cursor:pointer;
 }
 
-/* ===== BOTONES ===== */
+/* BOTONES */
 .btn{
-  margin-top:10px;
-  padding:8px;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
+margin-top:5px;
+padding:6px;
+border:none;
+cursor:pointer;
+border-radius:5px;
 }
 
 .whatsapp{background:#25D366;color:white;}
-.insta{background:#E1306C;color:white;}
-
 </style>
+
 </head>
 
 <body>
 
 <header>
+<button id="adminBtn" onclick="openSection('admin')">⚙</button>
 <h1>Eternos Recuerdos 11</h1>
-
-<div class="cart-icon">
-🛒
-<span id="cartCount" class="cart-count">0</span>
-</div>
+<button id="cartBtn" onclick="openSection('cart')">🛒 <span id="count">0</span></button>
 </header>
 
 <!-- INICIO -->
-<div id="inicio" class="inicio">
-
-<h2>Bienvenidos 💐</h2>
-
-<p>
-Somos un emprendimiento dedicado a ramos y regalos personalizados.  
-Gracias por confiar en nosotros para tus momentos especiales.  
-Creamos cada detalle con amor 💙
-</p>
-
+<div id="home">
 <div class="menu">
 
-<div class="menu-card" onclick="abrirSeccion('disenar')">
-<img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d">
-<h3>Diseñar tu ramo</h3>
-</div>
-
-<div class="menu-card" onclick="abrirSeccion('hechos')">
-<img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946">
-<h3>Ramos ya hechos</h3>
-</div>
-
-<div class="menu-card" onclick="abrirSeccion('tematicos')">
-<img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6">
-<h3>Ramos temáticos</h3>
-</div>
-
-<div class="menu-card" onclick="abrirSeccion('cajitas')">
-<img src="https://images.unsplash.com/photo-1518895949257-7621c3c786d7">
-<h3>Cajitas</h3>
-</div>
-
-<div class="menu-card" onclick="abrirSeccion('cuadros')">
-<img src="https://images.unsplash.com/photo-1526045612212-70caf35c14df">
-<h3>Cuadros</h3>
-</div>
+<div class="card" onclick="openSection('designer')">Diseñar ramo</div>
+<div class="card" onclick="openSection('shop')">Ramos hechos</div>
 
 </div>
-
 </div>
 
-<!-- SECCIONES -->
+<!-- DISEÑADOR -->
+<div id="designer" class="section">
+<button onclick="goHome()">←</button>
 
-<div id="disenar" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
 <h2>Diseñá tu ramo</h2>
-<p>Elegí flores, colores y armá tu ramo personalizado.</p>
+
+<div id="colors"></div>
+<div id="flowers" class="grid"></div>
+
+<select id="wrap">
+<option>Blanco</option>
+<option>Negro</option>
+<option>Rosa</option>
+<option>Azul</option>
+<option>Dorado</option>
+</select>
+
+<br><br>
+<button class="btn" onclick="addCustom()">Agregar</button>
+
 </div>
 
-<div id="hechos" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
-<h2>Ramos ya hechos</h2>
-<div class="grid" id="ramosHechos"></div>
+<!-- CARRITO -->
+<div id="cart" class="section">
+<button onclick="goHome()">←</button>
+
+<h2>Carrito</h2>
+<div id="cartList"></div>
+
+<input id="name" placeholder="Nombre"><br>
+<input id="contact" placeholder="Contacto"><br>
+
+<button class="btn whatsapp" onclick="send()">Enviar pedido</button>
 </div>
 
-<div id="tematicos" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
-<h2>Ramos temáticos</h2>
-<p>Próximamente 💐</p>
+<!-- TIENDA -->
+<div id="shop" class="section">
+<button onclick="goHome()">←</button>
+<div id="products" class="grid"></div>
 </div>
 
-<div id="cajitas" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
-<h2>Cajitas</h2>
-<p>Sección editable desde administración</p>
-</div>
+<!-- ADMIN -->
+<div id="admin" class="section">
+<button onclick="goHome()">←</button>
 
-<div id="cuadros" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
-<h2>Cuadros</h2>
-<p>Sección editable desde administración</p>
+<h2>Admin</h2>
+
+<input id="pname" placeholder="Nombre"><br>
+<input id="pimg" placeholder="Imagen URL"><br>
+<input id="pprice" placeholder="Precio"><br>
+
+<button onclick="addProduct()">Agregar</button>
+
+<h3>Lista</h3>
+<div id="adminList"></div>
+
 </div>
 
 <script>
 
-/* ===== NAVEGACIÓN ===== */
-function abrirSeccion(id){
-document.getElementById("inicio").style.display="none";
+/* NAV */
+function openSection(id){
+document.getElementById("home").style.display="none";
 document.querySelectorAll(".section").forEach(s=>s.style.display="none");
 document.getElementById(id).style.display="block";
 }
 
-function volver(){
-document.getElementById("inicio").style.display="block";
+function goHome(){
+document.getElementById("home").style.display="block";
 document.querySelectorAll(".section").forEach(s=>s.style.display="none");
 }
 
-</script>
-<!-- ===== DISEÑADOR DE RAMO ===== -->
+/* DATOS */
+let carrito=[];
+let productos=JSON.parse(localStorage.getItem("productos"))||[];
 
-<div id="disenar" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
+/* COLORES */
+let colorSel=null;
+let flowerSel=null;
 
-<h2>Diseñá tu ramo 💐</h2>
+let colorList=["red","pink","blue","yellow","green","black","white","gold"];
 
-<h3>Elegí el color</h3>
-<div id="colores" style="display:flex;flex-wrap:wrap;gap:10px;"></div>
+colorList.forEach(c=>{
+let d=document.createElement("div");
+d.className="color";
+d.style.background=c;
 
-<h3>Elegí la flor</h3>
-<div class="grid" id="flores"></div>
+d.onclick=()=>{
+document.querySelectorAll(".color").forEach(x=>x.style.border="none");
+d.style.border="3px solid black";
+colorSel=c;
+};
 
-<h3>Envoltorio</h3>
-<select id="envoltorio">
-<option>Papel coreano blanco</option>
-<option>Papel coreano negro</option>
-<option>Papel coreano rosa</option>
-<option>Papel coreano azul</option>
-<option>Papel coreano dorado</option>
-<option>Papel coreano estampado</option>
-</select>
-
-<button class="btn" onclick="agregarRamo()">Agregar al carrito</button>
-
-</div>
-
-<!-- ===== CARRITO ===== -->
-<div id="carrito" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
-
-<h2>Tu pedido 🛒</h2>
-<div id="listaCarrito"></div>
-
-<h3>Datos</h3>
-<input placeholder="Nombre" id="nombre"><br>
-<input placeholder="Contacto (Instagram o teléfono)" id="contacto"><br>
-<input type="date" id="fecha"><br>
-<select id="entrega">
-<option>Retiro</option>
-<option>Envío</option>
-</select>
-
-<button class="btn whatsapp" onclick="enviarPedido()">Enviar pedido</button>
-
-</div>
-
-<script>
-
-/* ===== DATOS ===== */
-
-let colores = [
-"#ff0000","#ff69b4","#ffc0cb","#800080","#0000ff","#87cefa",
-"#00ff00","#228b22","#ffff00","#ffa500","#8b4513","#000000",
-"#ffffff","#d4af37"
-];
-
-let flores = [
-{nombre:"Rosa", img:"https://images.unsplash.com/photo-1518895949257-7621c3c786d7"},
-{nombre:"Tulipán", img:"https://images.unsplash.com/photo-1525310072745-f49212b5ac6d"},
-{nombre:"Girasol", img:"https://images.unsplash.com/photo-1501004318641-b39e6451bec6"},
-{nombre:"Lirio", img:"https://images.unsplash.com/photo-1490750967868-88aa4486c946"}
-];
-
-let colorSeleccionado = null;
-let florSeleccionada = null;
-
-let carrito = [];
-
-/* ===== CREAR COLORES ===== */
-
-let contColores = document.getElementById("colores");
-
-colores.forEach(c=>{
-let div = document.createElement("div");
-div.style.width="30px";
-div.style.height="30px";
-div.style.borderRadius="50%";
-div.style.background=c;
-div.style.cursor="pointer";
-
-div.onclick=()=>{
-colorSeleccionado=c;
-}
-
-contColores.appendChild(div);
+colors.appendChild(d);
 });
 
-/* ===== CREAR FLORES ===== */
+/* FLORES */
+let flowersData=["Rosa","Tulipán","Girasol","Lirio"];
 
-let contFlores = document.getElementById("flores");
+flowersData.forEach(f=>{
+let div=document.createElement("div");
+div.className="card";
 
-flores.forEach(f=>{
-let card = document.createElement("div");
-card.className="card";
-
-card.innerHTML=`
-<img src="${f.img}">
-<h4>${f.nombre}</h4>
-<button class="btn" onclick="seleccionarFlor('${f.nombre}')">Elegir</button>
-`;
-
-contFlores.appendChild(card);
+div.innerHTML=`${f}<br><button onclick="selectFlower('${f}')">Elegir</button>`;
+flowers.appendChild(div);
 });
 
-function seleccionarFlor(nombre){
-florSeleccionada = nombre;
+function selectFlower(f){
+flowerSel=f;
 }
 
-/* ===== AGREGAR AL CARRITO ===== */
+/* AGREGAR PERSONALIZADO */
+function addCustom(){
 
-function agregarRamo(){
-
-if(!colorSeleccionado || !florSeleccionada){
+if(!colorSel || !flowerSel){
 alert("Elegí color y flor");
 return;
 }
 
-let envoltorio = document.getElementById("envoltorio").value;
-
-let item = {
-flor: florSeleccionada,
-color: colorSeleccionado,
-envoltorio: envoltorio,
-cantidad:1
-};
-
-carrito.push(item);
-actualizarCarrito();
-
-alert("Agregado al carrito ✔");
-}
-
-/* ===== ACTUALIZAR CARRITO ===== */
-
-function actualizarCarrito(){
-
-let lista = document.getElementById("listaCarrito");
-lista.innerHTML="";
-
-carrito.forEach((item,i)=>{
-
-lista.innerHTML += `
-<div style="background:white;padding:10px;margin:10px;border-radius:10px">
-<p>${item.flor}</p>
-<p>Color: ${item.color}</p>
-<p>${item.envoltorio}</p>
-
-<button onclick="sumar(${i})">+</button>
-${item.cantidad}
-<button onclick="restar(${i})">-</button>
-
-<button onclick="eliminar(${i})">Eliminar</button>
-</div>
-`;
-
-});
-
-document.getElementById("cartCount").innerText = carrito.length;
-}
-
-/* ===== FUNCIONES ===== */
-
-function sumar(i){
-carrito[i].cantidad++;
-actualizarCarrito();
-}
-
-function restar(i){
-if(carrito[i].cantidad>1){
-carrito[i].cantidad--;
-actualizarCarrito();
-}
-}
-
-function eliminar(i){
-carrito.splice(i,1);
-actualizarCarrito();
-}
-
-/* ===== ENVIAR PEDIDO ===== */
-
-function enviarPedido(){
-
-let nombre = document.getElementById("nombre").value;
-let contacto = document.getElementById("contacto").value;
-let fecha = document.getElementById("fecha").value;
-let entrega = document.getElementById("entrega").value;
-
-let texto = `Pedido:
-Nombre: ${nombre}
-Contacto: ${contacto}
-Fecha: ${fecha}
-Entrega: ${entrega}
-`;
-
-carrito.forEach(p=>{
-texto += `
-${p.flor} - ${p.color} - ${p.envoltorio} x${p.cantidad}
-`;
-});
-
-let url = "https://wa.me/?text=" + encodeURIComponent(texto);
-window.open(url);
-
-}
-
-  </script>
-  <!-- ===== ADMIN ===== -->
-
-<div id="admin" class="section">
-<div class="volver" onclick="volver()">← Volver</div>
-
-<h2>Panel Administrador 🔧</h2>
-
-<input id="adminNombre" placeholder="Nombre producto"><br>
-<input id="adminImg" placeholder="URL imagen"><br>
-
-<select id="adminCategoria">
-<option value="hechos">Ramos hechos</option>
-<option value="tematicos">Temáticos</option>
-<option value="cajitas">Cajitas</option>
-<option value="cuadros">Cuadros</option>
-</select>
-
-<select id="adminEstilo">
-<option value="normal">Normal</option>
-<option value="marco">Con marco</option>
-<option value="sinfondo">Sin fondo</option>
-</select>
-
-<button class="btn" onclick="agregarProducto()">Agregar producto</button>
-
-<h3>Productos cargados</h3>
-<div id="adminLista"></div>
-
-</div>
-
-<script>
-
-/* ===== BASE DE PRODUCTOS ===== */
-
-let productos = JSON.parse(localStorage.getItem("productos")) || [];
-
-/* ===== AGREGAR PRODUCTO ===== */
-
-function agregarProducto(){
-
-let nombre = document.getElementById("adminNombre").value;
-let img = document.getElementById("adminImg").value;
-let categoria = document.getElementById("adminCategoria").value;
-let estilo = document.getElementById("adminEstilo").value;
-
-let producto = {nombre,img,categoria,estilo};
-
-productos.push(producto);
-
-guardar();
-renderAdmin();
-renderProductos();
-
-}
-
-/* ===== GUARDAR ===== */
-
-function guardar(){
-localStorage.setItem("productos", JSON.stringify(productos));
-}
-
-/* ===== ADMIN LISTA ===== */
-
-function renderAdmin(){
-
-let lista = document.getElementById("adminLista");
-lista.innerHTML="";
-
-productos.forEach((p,i)=>{
-
-lista.innerHTML += `
-<div style="background:white;margin:10px;padding:10px;border-radius:10px">
-
-<img src="${p.img}" width="60"><br>
-${p.nombre} (${p.categoria})
-
-<br>
-
-<button onclick="editar(${i})">Editar</button>
-<button onclick="eliminarProd(${i})">Eliminar</button>
-
-</div>
-`;
-
-});
-
-}
-
-/* ===== ELIMINAR ===== */
-
-function eliminarProd(i){
-productos.splice(i,1);
-guardar();
-renderAdmin();
-renderProductos();
-}
-
-/* ===== EDITAR ===== */
-
-function editar(i){
-
-let nuevoNombre = prompt("Nuevo nombre", productos[i].nombre);
-productos[i].nombre = nuevoNombre;
-
-guardar();
-renderAdmin();
-renderProductos();
-}
-
-/* ===== MOSTRAR EN TIENDA ===== */
-
-function renderProductos(){
-
-let hechos = document.getElementById("ramosHechos");
-hechos.innerHTML="";
-
-productos.forEach(p=>{
-
-if(p.categoria==="hechos"){
-
-hechos.innerHTML += `
-<div class="card">
-<img src="${p.img}">
-<h4>${p.nombre}</h4>
-<button class="btn" onclick="agregarCarritoDesdeTienda('${p.nombre}')">Agregar</button>
-</div>
-`;
-
-}
-
-});
-
-}
-
-/* ===== AGREGAR DESDE TIENDA ===== */
-
-function agregarCarritoDesdeTienda(nombre){
+let wrap=document.getElementById("wrap").value;
 
 carrito.push({
-flor:nombre,
-color:"-",
-envoltorio:"-",
-cantidad:1
+name:flowerSel,
+color:colorSel,
+wrap:wrap,
+price:5000,
+qty:1
 });
 
-actualizarCarrito();
-
+renderCart();
 }
 
-/* ===== INICIAR ===== */
+/* CARRITO */
+function renderCart(){
+let div=document.getElementById("cartList");
+div.innerHTML="";
+let total=0;
 
+carrito.forEach((p,i)=>{
+total+=p.price*p.qty;
+
+div.innerHTML+=`
+<div class="card">
+${p.name} - ${p.color}<br>
+${p.wrap}<br>
+$${p.price}
+<br>
+<button onclick="p.qty++;renderCart()">+</button>
+${p.qty}
+<button onclick="p.qty--;renderCart()">-</button>
+<button onclick="carrito.splice(${i},1);renderCart()">X</button>
+</div>
+`;
+});
+
+div.innerHTML+=`<h3>Total: $${total}</h3>`;
+count.innerText=carrito.length;
+}
+
+/* WHATSAPP */
+function send(){
+let text="Pedido:\n";
+
+carrito.forEach(p=>{
+text+=`${p.name} x${p.qty}\n`;
+});
+
+window.open("https://wa.me/5492942338718?text="+encodeURIComponent(text));
+}
+
+/* ADMIN */
+function addProduct(){
+let name=pname.value;
+let img=pimg.value;
+let price=parseInt(pprice.value);
+
+productos.push({name,img,price});
+
+localStorage.setItem("productos",JSON.stringify(productos));
+
+renderProducts();
 renderAdmin();
-renderProductos();
+}
+
+/* RENDER PRODUCTOS */
+function renderProducts(){
+products.innerHTML="";
+
+productos.forEach(p=>{
+products.innerHTML+=`
+<div class="card">
+<img src="${p.img}" width="100%">
+${p.name}<br>
+$${p.price}
+<br>
+<button onclick="addToCart('${p.name}',${p.price})">Agregar</button>
+</div>
+`;
+});
+}
+
+function addToCart(n,p){
+carrito.push({name:n,price:p,qty:1});
+renderCart();
+}
+
+/* ADMIN LISTA */
+function renderAdmin(){
+adminList.innerHTML="";
+
+productos.forEach((p,i)=>{
+adminList.innerHTML+=`
+<div>
+${p.name}
+<button onclick="deleteProd(${i})">Eliminar</button>
+</div>
+`;
+});
+}
+
+function deleteProd(i){
+productos.splice(i,1);
+localStorage.setItem("productos",JSON.stringify(productos));
+renderProducts();
+renderAdmin();
+}
+
+/* INIT */
+renderProducts();
+renderAdmin();
 
 </script>
+
 </body>
 </html>
