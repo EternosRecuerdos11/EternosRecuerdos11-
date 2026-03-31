@@ -6,93 +6,94 @@
 
 <style>
 body{
-  margin:0;
-  font-family:'Segoe UI';
-  background:#f5efe6;
-  background-image:url("https://www.transparenttextures.com/patterns/flowers.png");
+margin:0;
+font-family:'Segoe UI', sans-serif;
+background:#f5efe6;
 }
 
-/* HEADER */
 header{
-  background:#1e3a8a;
-  color:white;
-  display:flex;
-  justify-content:space-between;
-  padding:15px;
+background:#1e3a8a;
+padding:20px;
+text-align:center;
+color:gold;
+position:sticky;
+top:0;
 }
 
-.logo{color:gold;font-weight:bold;}
-
-.cart{
-  position:relative;
-  cursor:pointer;
+.cart-icon{
+position:absolute;
+right:20px;
+top:20px;
+cursor:pointer;
 }
 
-.count{
-  position:absolute;
-  top:-5px;
-  right:-10px;
-  background:red;
-  color:white;
-  border-radius:50%;
-  padding:2px 6px;
-  font-size:12px;
+.admin-btn{
+position:absolute;
+left:20px;
+top:20px;
+cursor:pointer;
 }
 
-/* SECCIONES */
+.menu{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:20px;
+padding:30px;
+}
+
+.menu-card{
+width:180px;
+background:white;
+border-radius:10px;
+text-align:center;
+cursor:pointer;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+
+.menu-card img{
+width:100%;
+height:120px;
+object-fit:cover;
+}
+
 .section{
-  padding:20px;
+display:none;
+padding:20px;
 }
 
 .grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
-  gap:15px;
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+gap:15px;
 }
 
 .card{
-  background:white;
-  border-radius:15px;
-  padding:10px;
-  box-shadow:0 5px 10px rgba(0,0,0,0.1);
-  transition:0.3s;
-}
-.card:hover{transform:scale(1.05);}
-
-.card img{
-  width:100%;
-  border-radius:10px;
+background:white;
+padding:10px;
+border-radius:10px;
+text-align:center;
 }
 
-/* MODAL */
-.modal{
-  display:none;
-  position:fixed;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,0.5);
+.btn{
+padding:8px;
+margin-top:5px;
+border:none;
+border-radius:5px;
+cursor:pointer;
 }
 
-.modal-content{
-  background:white;
-  margin:5% auto;
-  padding:20px;
-  width:90%;
-  max-width:400px;
-  border-radius:15px;
-}
+.whatsapp{background:#25D366;color:white;}
+.insta{background:#E1306C;color:white;}
 
-/* BOTONES */
-button{
-  border:none;
-  padding:8px;
-  border-radius:8px;
-  cursor:pointer;
+.color{
+width:25px;
+height:25px;
+border-radius:50%;
+cursor:pointer;
+display:inline-block;
+margin:5px;
 }
-
-.whatsapp{background:#25D366;color:white;width:100%;}
-.insta{background:#E1306C;color:white;width:100%;}
-.adminBtn{background:black;color:white;}
 
 </style>
 </head>
@@ -100,225 +101,216 @@ button{
 <body>
 
 <header>
-<div class="logo">Eternos Recuerdos 11</div>
-<div>
-<span class="cart" onclick="abrirCarrito()">🛒 <span id="count" class="count">0</span></span>
-<button onclick="abrirAdmin()" class="adminBtn">⚙</button>
-</div>
+<button class="admin-btn" onclick="abrir('admin')">⚙</button>
+<h1>Eternos Recuerdos 11</h1>
+<div class="cart-icon" onclick="abrir('carrito')">🛒 <span id="count">0</span></div>
+
+<a href="https://www.instagram.com/eternos_recuerdos11" target="_blank">
+<button class="btn insta">Instagram</button>
+</a>
+
 </header>
 
 <!-- INICIO -->
-<div class="section">
-<h2>Bienvenida 💐</h2>
-<p>Hacemos envíos y retiros. Diseñá tu ramo, elegí colores y envoltorios.</p>
+<div id="inicio">
+<div class="menu">
+
+<div class="menu-card" onclick="abrir('disenar')">
+<img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d">
+<p>Diseñar ramo</p>
 </div>
 
-<!-- CATEGORÍAS -->
-<div class="section">
-<h2>Flores</h2>
-<div id="flores" class="grid"></div>
-
-<h2>Cajitas</h2>
-<div id="cajitas" class="grid"></div>
-
-<h2>Cuadros</h2>
-<div id="cuadros" class="grid"></div>
+<div class="menu-card" onclick="abrir('hechos')">
+<img src="https://images.unsplash.com/photo-1490750967868-88aa4486c946">
+<p>Ramos hechos</p>
 </div>
 
-<!-- MODAL PRODUCTO -->
-<div id="modal" class="modal">
-<div class="modal-content">
-<h3 id="nom"></h3>
-<img id="imgProd" width="100%">
-<p id="price"></p>
+</div>
+</div>
 
-<label>Color:</label>
-<select id="color">
-<option>Rosa</option><option>Rojo</option><option>Azul Francia</option>
-<option>Blanco</option><option>Violeta</option><option>Amarillo</option>
+<!-- DISEÑADOR -->
+<div id="disenar" class="section">
+<button onclick="volver()">← Volver</button>
+
+<h2>Diseñá tu ramo</h2>
+
+<div id="colores"></div>
+
+<div class="grid" id="flores"></div>
+
+<select id="envoltorio">
+<option>Blanco</option>
+<option>Negro</option>
+<option>Rosa</option>
+<option>Azul</option>
 </select>
 
-<label>Envoltorio:</label>
-<select id="wrap" onchange="coreano()">
-<option value="0">Común</option>
-<option value="7000">Papel coreano</option>
-</select>
+<button id="addBtn" class="btn" onclick="agregar()">Agregar</button>
 
-<div id="coreanoBox" style="display:none;">
-<select>
-<option>Coreano 1</option>
-<option>Coreano 2</option>
-<option>Coreano 3</option>
-</select>
-</div>
-
-<label>Cantidad:</label>
-<input type="number" id="cant" value="1">
-
-<button onclick="addCart()">Agregar</button>
-<button onclick="closeModal()">Cerrar</button>
-</div>
 </div>
 
 <!-- CARRITO -->
-<div id="carrito" class="modal">
-<div class="modal-content">
-<h2>Tu pedido</h2>
-<div id="items"></div>
-<h3 id="total"></h3>
+<div id="carrito" class="section">
+<button onclick="volver()">← Volver</button>
 
-<button class="whatsapp" onclick="sendWA()">Enviar por WhatsApp</button>
-<button class="insta" onclick="window.open('https://www.instagram.com/eternos_recuerdos11')">Instagram</button>
-<button onclick="closeCart()">Cerrar</button>
+<h2>Carrito</h2>
+<div id="lista"></div>
+
+<input id="nombre" placeholder="Nombre"><br>
+<input id="contacto" placeholder="Contacto"><br>
+
+<button class="btn whatsapp" onclick="pedido()">Enviar pedido</button>
+
 </div>
+
+<!-- TIENDA -->
+<div id="hechos" class="section">
+<button onclick="volver()">← Volver</button>
+<div id="productos" class="grid"></div>
 </div>
 
 <!-- ADMIN -->
-<div id="admin" class="modal">
-<div class="modal-content">
-<h2>Administración</h2>
+<div id="admin" class="section">
+<button onclick="volver()">← Volver</button>
 
-<input id="an" placeholder="Nombre">
-<input id="ap" placeholder="Precio">
-<input id="ai" placeholder="Imagen URL">
+<input id="n" placeholder="Nombre">
+<input id="i" placeholder="Imagen URL">
 
-<select id="acat">
-<option value="flores">Flores</option>
-<option value="cajitas">Cajitas</option>
-<option value="cuadros">Cuadros</option>
-</select>
-
-<button onclick="addProduct()">Agregar</button>
+<button onclick="addProd()">Agregar</button>
 
 <div id="adminList"></div>
 
-<button onclick="closeAdmin()">Cerrar</button>
-</div>
 </div>
 
 <script>
 
-let data={
-flores:[
-["Hortensia P",1000,"https://images.unsplash.com/photo-1525310072745-f49212b5ac6d"],
-["Tulipán G",7000,"https://images.unsplash.com/photo-1526045612212-70caf35c14df"],
-["Rosa G",9000,"https://images.unsplash.com/photo-1518895949257-7621c3c786d7"],
-["Girasol G",9500,"https://images.unsplash.com/photo-1501004318641-b39e6451bec6"]
-],
-cajitas:[],
-cuadros:[]
+/* NAV */
+function abrir(id){
+document.getElementById("inicio").style.display="none";
+document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+function volver(){
+document.getElementById("inicio").style.display="block";
+document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+}
+
+/* DATOS */
+let colores=["red","pink","blue","yellow","green","black","white","gold"];
+let flores=["Rosa","Tulipán","Girasol"];
+let carrito=[];
+let productos=JSON.parse(localStorage.getItem("p"))||[];
+
+/* CREAR COLORES */
+colores.forEach(c=>{
+let d=document.createElement("div");
+d.className="color";
+d.style.background=c;
+d.onclick=()=>{
+document.querySelectorAll(".color").forEach(x=>x.style.border="none");
+d.style.border="2px solid black";
+window.color=c;
 };
-
-let cart=[];
-let current={};
-
-function render(){
-["flores","cajitas","cuadros"].forEach(cat=>{
-let cont=document.getElementById(cat);
-cont.innerHTML="";
-data[cat].forEach((p,i)=>{
-cont.innerHTML+=`
-<div class="card">
-<img src="${p[2]}">
-<h4>${p[0]}</h4>
-<p>$${p[1]}</p>
-<button onclick="openModal('${cat}',${i})">Elegir</button>
-</div>`;
+coloresDiv.appendChild(d);
 });
+
+/* FLORES */
+flores.forEach(f=>{
+let card=document.createElement("div");
+card.className="card";
+card.innerHTML=`${f}<br><button onclick="sel('${f}')">Elegir</button>`;
+floresDiv.appendChild(card);
 });
+
+function sel(f){window.flor=f}
+
+/* AGREGAR */
+function agregar(){
+if(!color||!flor){alert("Elegí");return;}
+
+carrito.push({flor,color,cant:1,precio:5000});
+renderCarrito();
+
+let b=document.getElementById("addBtn");
+b.innerText="✔";
+setTimeout(()=>b.innerText="Agregar",1000);
 }
 
-function openModal(cat,i){
-current={cat,i};
-let p=data[cat][i];
-nom.innerText=p[0];
-price.innerText="$"+p[1];
-imgProd.src=p[2];
-modal.style.display="block";
-}
-
-function closeModal(){modal.style.display="none";}
-
-function coreano(){
-coreanoBox.style.display=wrap.value==7000?"block":"none";
-}
-
-function addCart(){
-let p=data[current.cat][current.i];
-let c=parseInt(cant.value);
-let wrapPrice=parseInt(wrap.value);
-
-for(let i=0;i<c;i++){
-cart.push({
-nombre:p[0],
-precio:p[1]+wrapPrice,
-color:color.value
-});
-}
-
-count.innerText=cart.length;
-closeModal();
-}
-
-function abrirCarrito(){
-carrito.style.display="block";
-renderCart();
-}
-
-function closeCart(){carrito.style.display="none";}
-
-function renderCart(){
-items.innerHTML="";
+/* CARRITO */
+function renderCarrito(){
+let l=document.getElementById("lista");
+l.innerHTML="";
 let total=0;
 
-cart.forEach(p=>{
-items.innerHTML+=`<p>${p.nombre} (${p.color}) $${p.precio}</p>`;
-total+=p.precio;
+carrito.forEach((p,i)=>{
+total+=p.precio*p.cant;
+
+l.innerHTML+=`
+<div>
+${p.flor} ${p.color} $${p.precio}
+<br>
+<button onclick="p.cant++;renderCarrito()">+</button>
+${p.cant}
+<button onclick="p.cant--;renderCarrito()">-</button>
+<button onclick="carrito.splice(${i},1);renderCarrito()">X</button>
+</div>
+`;
 });
 
-document.getElementById("total").innerText="Total: $"+total;
+l.innerHTML+=`<h3>Total: $${total}</h3>`;
+document.getElementById("count").innerText=carrito.length;
 }
 
-function sendWA(){
-let t="Hola quiero:%0A";
-cart.forEach(p=>{
-t+=`- ${p.nombre} (${p.color}) $${p.precio}%0A`;
+/* PEDIDO */
+function pedido(){
+let t="Pedido:\n";
+carrito.forEach(p=>{
+t+=`${p.flor} x${p.cant}\n`;
 });
-window.open(`https://wa.me/5492942338718?text=${t}`);
+window.open("https://wa.me/5492942338718?text="+encodeURIComponent(t));
 }
 
 /* ADMIN */
-function abrirAdmin(){
-admin.style.display="block";
+function addProd(){
+let n=document.getElementById("n").value;
+let i=document.getElementById("i").value;
+
+productos.push({n,i});
+localStorage.setItem("p",JSON.stringify(productos));
+renderProd();
 renderAdmin();
 }
 
-function closeAdmin(){admin.style.display="none";}
-
-function addProduct(){
-data[acat.value].push([an.value,parseInt(ap.value),ai.value]);
-render();
-renderAdmin();
+function renderProd(){
+let d=document.getElementById("productos");
+d.innerHTML="";
+productos.forEach(p=>{
+d.innerHTML+=`
+<div class="card">
+<img src="${p.i}" width="100%">
+${p.n}
+<button onclick="carrito.push({flor:'${p.n}',cant:1,precio:6000});renderCarrito()">Agregar</button>
+</div>
+`;
+});
 }
 
 function renderAdmin(){
-adminList.innerHTML="";
-Object.keys(data).forEach(cat=>{
-data[cat].forEach((p,i)=>{
-adminList.innerHTML+=`
-<p>${p[0]} $${p[1]}
-<button onclick="deleteP('${cat}',${i})">X</button></p>`;
-});
+let d=document.getElementById("adminList");
+d.innerHTML="";
+productos.forEach((p,i)=>{
+d.innerHTML+=`
+<div>
+${p.n}
+<button onclick="productos.splice(${i},1);localStorage.setItem('p',JSON.stringify(productos));renderAdmin();renderProd()">Eliminar</button>
+</div>
+`;
 });
 }
 
-function deleteP(cat,i){
-data[cat].splice(i,1);
-render();
+renderProd();
 renderAdmin();
-}
-
-render();
 
 </script>
 
