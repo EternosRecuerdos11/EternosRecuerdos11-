@@ -2,211 +2,323 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Eternos Recuerdos</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<title>Eternos Recuerdos 11</title>
 
 <style>
-body{font-family:Poppins;margin:0;background:#f5efe6;}
-header{background:#0b3c5d;color:white;padding:15px;display:flex;justify-content:space-between;}
-button{background:#0b3c5d;color:white;border:none;padding:10px;border-radius:20px;}
-.pantalla{display:none;padding:20px;}
-.activa{display:block;}
-.menu,.productos{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
-.card,.card-menu{background:white;padding:10px;border-radius:20px;text-align:center;}
-img{width:100%;border-radius:15px;}
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;display:flex;justify-content:center;align-items:center;}
-.modal-contenido{background:white;padding:20px;border-radius:20px;width:300px;}
-.oculto{display:none;}
-input,select{width:100%;padding:8px;margin:5px 0;border-radius:10px;}
+body{
+  margin:0;
+  font-family:'Segoe UI';
+  background:#f5efe6;
+  background-image:url("https://www.transparenttextures.com/patterns/flowers.png");
+}
+
+/* HEADER */
+header{
+  background:#1e3a8a;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  padding:15px;
+}
+
+.logo{color:gold;font-weight:bold;}
+
+.cart{
+  position:relative;
+  cursor:pointer;
+}
+
+.count{
+  position:absolute;
+  top:-5px;
+  right:-10px;
+  background:red;
+  color:white;
+  border-radius:50%;
+  padding:2px 6px;
+  font-size:12px;
+}
+
+/* SECCIONES */
+.section{
+  padding:20px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:15px;
+}
+
+.card{
+  background:white;
+  border-radius:15px;
+  padding:10px;
+  box-shadow:0 5px 10px rgba(0,0,0,0.1);
+  transition:0.3s;
+}
+.card:hover{transform:scale(1.05);}
+
+.card img{
+  width:100%;
+  border-radius:10px;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.5);
+}
+
+.modal-content{
+  background:white;
+  margin:5% auto;
+  padding:20px;
+  width:90%;
+  max-width:400px;
+  border-radius:15px;
+}
+
+/* BOTONES */
+button{
+  border:none;
+  padding:8px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.whatsapp{background:#25D366;color:white;width:100%;}
+.insta{background:#E1306C;color:white;width:100%;}
+.adminBtn{background:black;color:white;}
+
 </style>
 </head>
 
 <body>
 
 <header>
-<h3>Eternos Recuerdos</h3>
+<div class="logo">Eternos Recuerdos 11</div>
 <div>
-<button onclick="ir('carrito')">🛒</button>
-<button onclick="abrirAdmin()">⚙️</button>
+<span class="cart" onclick="abrirCarrito()">🛒 <span id="count" class="count">0</span></span>
+<button onclick="abrirAdmin()" class="adminBtn">⚙</button>
 </div>
 </header>
 
 <!-- INICIO -->
-<section id="inicio" class="pantalla activa">
+<div class="section">
 <h2>Bienvenida 💐</h2>
-<div class="menu">
-<div class="card-menu" onclick="ir('productos')">
-<img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d">
-<p>Ver productos</p>
+<p>Hacemos envíos y retiros. Diseñá tu ramo, elegí colores y envoltorios.</p>
 </div>
+
+<!-- CATEGORÍAS -->
+<div class="section">
+<h2>Flores</h2>
+<div id="flores" class="grid"></div>
+
+<h2>Cajitas</h2>
+<div id="cajitas" class="grid"></div>
+
+<h2>Cuadros</h2>
+<div id="cuadros" class="grid"></div>
 </div>
-</section>
-
-<!-- PRODUCTOS -->
-<section id="productos" class="pantalla">
-<h2>Productos</h2>
-<div class="productos" id="lista"></div>
-</section>
-
-<!-- CARRITO -->
-<section id="carrito" class="pantalla">
-<h2>Carrito</h2>
-<div id="items"></div>
-
-<h3>Total: $<span id="total"></span></h3>
-
-<h3>Datos del cliente</h3>
-<input id="nombre" placeholder="Nombre">
-<input id="telefono" placeholder="Teléfono">
-<input id="direccion" placeholder="Dirección">
-
-<button onclick="enviarPedido()">Enviar pedido</button>
-</section>
 
 <!-- MODAL PRODUCTO -->
-<div id="modal" class="modal oculto">
-<div class="modal-contenido">
-<span onclick="cerrarModal()">❌</span>
-<img id="imgModal">
-<h3 id="nombreModal"></h3>
-<p>$<span id="precioModal"></span></p>
+<div id="modal" class="modal">
+<div class="modal-content">
+<h3 id="nom"></h3>
+<img id="imgProd" width="100%">
+<p id="price"></p>
 
-<input type="number" id="cantidad" value="1">
-
+<label>Color:</label>
 <select id="color">
-<option>Rojo</option>
-<option>Rosa</option>
-<option>Blanco</option>
+<option>Rosa</option><option>Rojo</option><option>Azul Francia</option>
+<option>Blanco</option><option>Violeta</option><option>Amarillo</option>
 </select>
 
-<button onclick="agregarCarrito()">Agregar</button>
+<label>Envoltorio:</label>
+<select id="wrap" onchange="coreano()">
+<option value="0">Común</option>
+<option value="7000">Papel coreano</option>
+</select>
+
+<div id="coreanoBox" style="display:none;">
+<select>
+<option>Coreano 1</option>
+<option>Coreano 2</option>
+<option>Coreano 3</option>
+</select>
+</div>
+
+<label>Cantidad:</label>
+<input type="number" id="cant" value="1">
+
+<button onclick="addCart()">Agregar</button>
+<button onclick="closeModal()">Cerrar</button>
+</div>
+</div>
+
+<!-- CARRITO -->
+<div id="carrito" class="modal">
+<div class="modal-content">
+<h2>Tu pedido</h2>
+<div id="items"></div>
+<h3 id="total"></h3>
+
+<button class="whatsapp" onclick="sendWA()">Enviar por WhatsApp</button>
+<button class="insta" onclick="window.open('https://www.instagram.com/eternos_recuerdos11')">Instagram</button>
+<button onclick="closeCart()">Cerrar</button>
 </div>
 </div>
 
 <!-- ADMIN -->
-<div id="admin" class="modal oculto">
-<div class="modal-contenido">
-<h3>Admin 🔒</h3>
+<div id="admin" class="modal">
+<div class="modal-content">
+<h2>Administración</h2>
 
-<input id="pass" placeholder="Contraseña">
-<button onclick="login()">Entrar</button>
+<input id="an" placeholder="Nombre">
+<input id="ap" placeholder="Precio">
+<input id="ai" placeholder="Imagen URL">
 
-<div id="panel" class="oculto">
+<select id="acat">
+<option value="flores">Flores</option>
+<option value="cajitas">Cajitas</option>
+<option value="cuadros">Cuadros</option>
+</select>
 
-<h4>Agregar producto</h4>
-<input id="nuevoNombre" placeholder="Nombre">
-<input id="nuevoPrecio" placeholder="Precio">
-<input id="nuevoImg" placeholder="URL imagen">
-<button onclick="agregarProducto()">Guardar</button>
+<button onclick="addProduct()">Agregar</button>
 
-<h4>Productos</h4>
-<div id="listaAdmin"></div>
+<div id="adminList"></div>
 
-</div>
-
+<button onclick="closeAdmin()">Cerrar</button>
 </div>
 </div>
 
 <script>
 
-let actual="inicio";
-function ir(id){
-document.getElementById(actual).classList.remove("activa");
-document.getElementById(id).classList.add("activa");
-actual=id;
-if(id==="carrito") mostrarCarrito();
-}
+let data={
+flores:[
+["Hortensia P",1000,"https://images.unsplash.com/photo-1525310072745-f49212b5ac6d"],
+["Tulipán G",7000,"https://images.unsplash.com/photo-1526045612212-70caf35c14df"],
+["Rosa G",9000,"https://images.unsplash.com/photo-1518895949257-7621c3c786d7"],
+["Girasol G",9500,"https://images.unsplash.com/photo-1501004318641-b39e6451bec6"]
+],
+cajitas:[],
+cuadros:[]
+};
 
-let productos=[
-{nombre:"Ramo rojo",precio:15000,img:"https://images.unsplash.com/photo-1519378058457-4c29a0a2efac"}
-];
+let cart=[];
+let current={};
 
-let carrito=[];
-let actualProducto=null;
-
-function cargar(){
-let cont=document.getElementById("lista");
+function render(){
+["flores","cajitas","cuadros"].forEach(cat=>{
+let cont=document.getElementById(cat);
 cont.innerHTML="";
-productos.forEach((p,i)=>{
+data[cat].forEach((p,i)=>{
 cont.innerHTML+=`
-<div class="card" onclick="abrirModal(${i})">
-<img src="${p.img}">
-<p>${p.nombre}</p>
-<p>$${p.precio}</p>
+<div class="card">
+<img src="${p[2]}">
+<h4>${p[0]}</h4>
+<p>$${p[1]}</p>
+<button onclick="openModal('${cat}',${i})">Elegir</button>
 </div>`;
 });
-cargarAdmin();
+});
 }
 
-function abrirModal(i){
-actualProducto=productos[i];
-imgModal.src=actualProducto.img;
-nombreModal.innerText=actualProducto.nombre;
-precioModal.innerText=actualProducto.precio;
-modal.classList.remove("oculto");
+function openModal(cat,i){
+current={cat,i};
+let p=data[cat][i];
+nom.innerText=p[0];
+price.innerText="$"+p[1];
+imgProd.src=p[2];
+modal.style.display="block";
 }
 
-function cerrarModal(){modal.classList.add("oculto");}
+function closeModal(){modal.style.display="none";}
 
-function agregarCarrito(){
-let cant=parseInt(cantidad.value);
-carrito.push({...actualProducto,cantidad:cant});
-cerrarModal();
-alert("Agregado");
+function coreano(){
+coreanoBox.style.display=wrap.value==7000?"block":"none";
 }
 
-function mostrarCarrito(){
-let cont=document.getElementById("items");
+function addCart(){
+let p=data[current.cat][current.i];
+let c=parseInt(cant.value);
+let wrapPrice=parseInt(wrap.value);
+
+for(let i=0;i<c;i++){
+cart.push({
+nombre:p[0],
+precio:p[1]+wrapPrice,
+color:color.value
+});
+}
+
+count.innerText=cart.length;
+closeModal();
+}
+
+function abrirCarrito(){
+carrito.style.display="block";
+renderCart();
+}
+
+function closeCart(){carrito.style.display="none";}
+
+function renderCart(){
+items.innerHTML="";
 let total=0;
-cont.innerHTML="";
-carrito.forEach(p=>{
-total+=p.precio*p.cantidad;
-cont.innerHTML+=`<p>${p.nombre} x${p.cantidad}</p>`;
+
+cart.forEach(p=>{
+items.innerHTML+=`<p>${p.nombre} (${p.color}) $${p.precio}</p>`;
+total+=p.precio;
 });
-document.getElementById("total").innerText=total;
+
+document.getElementById("total").innerText="Total: $"+total;
 }
 
-function enviarPedido(){
-let texto="Pedido:%0A";
-carrito.forEach(p=>{
-texto+=`${p.nombre} x${p.cantidad}%0A`;
+function sendWA(){
+let t="Hola quiero:%0A";
+cart.forEach(p=>{
+t+=`- ${p.nombre} (${p.color}) $${p.precio}%0A`;
 });
-
-texto+=`Nombre:${nombre.value}%0A`;
-texto+=`Tel:${telefono.value}%0A`;
-texto+=`Dir:${direccion.value}`;
-
-window.open("https://wa.me/?text="+texto);
+window.open(`https://wa.me/5492942338718?text=${t}`);
 }
 
 /* ADMIN */
-function abrirAdmin(){admin.classList.remove("oculto");}
-
-function login(){
-if(pass.value==="1234"){
-panel.classList.remove("oculto");
-}
+function abrirAdmin(){
+admin.style.display="block";
+renderAdmin();
 }
 
-function agregarProducto(){
-productos.push({
-nombre:nuevoNombre.value,
-precio:parseInt(nuevoPrecio.value),
-img:nuevoImg.value
+function closeAdmin(){admin.style.display="none";}
+
+function addProduct(){
+data[acat.value].push([an.value,parseInt(ap.value),ai.value]);
+render();
+renderAdmin();
+}
+
+function renderAdmin(){
+adminList.innerHTML="";
+Object.keys(data).forEach(cat=>{
+data[cat].forEach((p,i)=>{
+adminList.innerHTML+=`
+<p>${p[0]} $${p[1]}
+<button onclick="deleteP('${cat}',${i})">X</button></p>`;
 });
-cargar();
-}
-
-function cargarAdmin(){
-let cont=document.getElementById("listaAdmin");
-cont.innerHTML="";
-productos.forEach((p,i)=>{
-cont.innerHTML+=`<p>${p.nombre} $${p.precio}</p>`;
 });
 }
 
-cargar();
+function deleteP(cat,i){
+data[cat].splice(i,1);
+render();
+renderAdmin();
+}
+
+render();
 
 </script>
 
