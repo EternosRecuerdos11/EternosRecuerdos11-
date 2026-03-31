@@ -2,191 +2,211 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Recuerdos Eternos</title>
-<link rel="stylesheet" href="estilos.css">
+<title>Eternos Recuerdos</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+body{font-family:Poppins;margin:0;background:#f5efe6;}
+header{background:#0b3c5d;color:white;padding:15px;display:flex;justify-content:space-between;}
+button{background:#0b3c5d;color:white;border:none;padding:10px;border-radius:20px;}
+.pantalla{display:none;padding:20px;}
+.activa{display:block;}
+.menu,.productos{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;}
+.card,.card-menu{background:white;padding:10px;border-radius:20px;text-align:center;}
+img{width:100%;border-radius:15px;}
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:#00000080;display:flex;justify-content:center;align-items:center;}
+.modal-contenido{background:white;padding:20px;border-radius:20px;width:300px;}
+.oculto{display:none;}
+input,select{width:100%;padding:8px;margin:5px 0;border-radius:10px;}
+</style>
 </head>
 
 <body>
 
-<!-- HEADER -->
 <header>
-    <div class="logo">Recuerdos Eternos ✨</div>
-
-    <div class="acciones">
-        <input type="text" id="buscador" placeholder="Buscar flores...">
-        
-        <div class="carrito-icono" onclick="toggleCarrito()">
-            🛒 <span id="contador">0</span>
-        </div>
-    </div>
+<h3>Eternos Recuerdos</h3>
+<div>
+<button onclick="ir('carrito')">🛒</button>
+<button onclick="abrirAdmin()">⚙️</button>
+</div>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-texto">
-        <h1>Diseñá tu ramo ideal 💙</h1>
-        <p>Elegí flores, combinaciones y envoltorios</p>
-    </div>
-
-    <div class="hero-media">
-        <!-- VIDEO O IMAGEN -->
-        <video autoplay muted loop>
-            <source src="video.mp4" type="video/mp4">
-        </video>
-    </div>
-</section>
-
-<!-- CATEGORÍAS -->
-<section class="categorias">
-    <button onclick="filtrar('todas')">Todas</button>
-    <button onclick="filtrar('pequeñas')">Pequeñas</button>
-    <button onclick="filtrar('medianas')">Medianas</button>
-    <button onclick="filtrar('grandes')">Grandes</button>
+<!-- INICIO -->
+<section id="inicio" class="pantalla activa">
+<h2>Bienvenida 💐</h2>
+<div class="menu">
+<div class="card-menu" onclick="ir('productos')">
+<img src="https://images.unsplash.com/photo-1525310072745-f49212b5ac6d">
+<p>Ver productos</p>
+</div>
+</div>
 </section>
 
 <!-- PRODUCTOS -->
-<section id="productos" class="productos"></section>
+<section id="productos" class="pantalla">
+<h2>Productos</h2>
+<div class="productos" id="lista"></div>
+</section>
 
 <!-- CARRITO -->
-<div id="carrito" class="carrito oculto">
+<section id="carrito" class="pantalla">
+<h2>Carrito</h2>
+<div id="items"></div>
 
-    <h2>Tu ramo 🌸</h2>
+<h3>Total: $<span id="total"></span></h3>
 
-    <div id="lista"></div>
+<h3>Datos del cliente</h3>
+<input id="nombre" placeholder="Nombre">
+<input id="telefono" placeholder="Teléfono">
+<input id="direccion" placeholder="Dirección">
 
-    <div class="opciones">
-        <h4>Envoltorio</h4>
-        <select id="envoltorio">
-            <option value="0">Común ($0)</option>
-            <option value="7000">Coreano ($7000)</option>
-        </select>
-    </div>
+<button onclick="enviarPedido()">Enviar pedido</button>
+</section>
 
-    <div class="total">
-        <p>Total: $<span id="total">0</span></p>
-    </div>
+<!-- MODAL PRODUCTO -->
+<div id="modal" class="modal oculto">
+<div class="modal-contenido">
+<span onclick="cerrarModal()">❌</span>
+<img id="imgModal">
+<h3 id="nombreModal"></h3>
+<p>$<span id="precioModal"></span></p>
 
-    <button class="btn-finalizar" onclick="enviarPedido()">Finalizar pedido</button>
+<input type="number" id="cantidad" value="1">
+
+<select id="color">
+<option>Rojo</option>
+<option>Rosa</option>
+<option>Blanco</option>
+</select>
+
+<button onclick="agregarCarrito()">Agregar</button>
+</div>
 </div>
 
-<!-- INFO -->
-<section class="info">
-    <h2>¿Cómo comprar?</h2>
-    <p>✔ Elegí tus flores</p>
-    <p>✔ Personalizá tu ramo</p>
-    <p>✔ Enviamos o retiro en domicilio</p>
-</section>
+<!-- ADMIN -->
+<div id="admin" class="modal oculto">
+<div class="modal-contenido">
+<h3>Admin 🔒</h3>
+
+<input id="pass" placeholder="Contraseña">
+<button onclick="login()">Entrar</button>
+
+<div id="panel" class="oculto">
+
+<h4>Agregar producto</h4>
+<input id="nuevoNombre" placeholder="Nombre">
+<input id="nuevoPrecio" placeholder="Precio">
+<input id="nuevoImg" placeholder="URL imagen">
+<button onclick="agregarProducto()">Guardar</button>
+
+<h4>Productos</h4>
+<div id="listaAdmin"></div>
+
+</div>
+
+</div>
+</div>
 
 <script>
 
-let productos = JSON.parse(localStorage.getItem("productos")) || [
-    {nombre:"Hortensia P", precio:1000, categoria:"pequeñas"},
-    {nombre:"Nube P", precio:1500, categoria:"pequeñas"},
-    {nombre:"Campanita P", precio:1300, categoria:"pequeñas"},
-    {nombre:"Lavanda P", precio:1500, categoria:"pequeñas"},
-    {nombre:"Margarita P", precio:2100, categoria:"pequeñas"},
+let actual="inicio";
+function ir(id){
+document.getElementById(actual).classList.remove("activa");
+document.getElementById(id).classList.add("activa");
+actual=id;
+if(id==="carrito") mostrarCarrito();
+}
 
-    {nombre:"Margarita M", precio:4100, categoria:"medianas"},
-    {nombre:"Campanilla M", precio:4400, categoria:"medianas"},
-    {nombre:"Lavanda M", precio:4200, categoria:"medianas"},
-    {nombre:"Camelia M", precio:5500, categoria:"medianas"},
-    {nombre:"Tulipán M", precio:6000, categoria:"medianas"},
-
-    {nombre:"Lavanda G", precio:5800, categoria:"grandes"},
-    {nombre:"Dahlia G", precio:6000, categoria:"grandes"},
-    {nombre:"Gerbera G", precio:6100, categoria:"grandes"},
-    {nombre:"Tulipán G", precio:7000, categoria:"grandes"},
-    {nombre:"Hibisco G", precio:6500, categoria:"grandes"},
-    {nombre:"Amapola G", precio:7500, categoria:"grandes"},
-    {nombre:"Lirio 5 pétalos", precio:8000, categoria:"grandes"},
-    {nombre:"Lirio 6 pétalos", precio:8700, categoria:"grandes"},
-    {nombre:"Crisantemo G", precio:8600, categoria:"grandes"},
-    {nombre:"Girasol G", precio:9500, categoria:"grandes"},
-    {nombre:"Margarita G", precio:9200, categoria:"grandes"},
-    {nombre:"Rosa G", precio:9000, categoria:"grandes"},
-    {nombre:"Flor de Loto", precio:9500, categoria:"grandes"},
-    {nombre:"Lirio Araña", precio:9000, categoria:"grandes"},
-    {nombre:"Peonia G", precio:10500, categoria:"grandes"}
+let productos=[
+{nombre:"Ramo rojo",precio:15000,img:"https://images.unsplash.com/photo-1519378058457-4c29a0a2efac"}
 ];
 
-let carrito = [];
+let carrito=[];
+let actualProducto=null;
 
-function render(lista){
-    let cont = document.getElementById("productos");
-    cont.innerHTML = "";
-
-    lista.forEach((p,i)=>{
-        cont.innerHTML += `
-        <div class="card">
-            <div class="img"></div>
-
-            <h3>${p.nombre}</h3>
-            <p>$${p.precio}</p>
-
-            <button onclick="agregar(${i})">Agregar</button>
-        </div>`;
-    });
+function cargar(){
+let cont=document.getElementById("lista");
+cont.innerHTML="";
+productos.forEach((p,i)=>{
+cont.innerHTML+=`
+<div class="card" onclick="abrirModal(${i})">
+<img src="${p.img}">
+<p>${p.nombre}</p>
+<p>$${p.precio}</p>
+</div>`;
+});
+cargarAdmin();
 }
 
-function filtrar(cat){
-    if(cat === "todas"){
-        render(productos);
-    } else {
-        let filtrados = productos.filter(p=>p.categoria === cat);
-        render(filtrados);
-    }
+function abrirModal(i){
+actualProducto=productos[i];
+imgModal.src=actualProducto.img;
+nombreModal.innerText=actualProducto.nombre;
+precioModal.innerText=actualProducto.precio;
+modal.classList.remove("oculto");
 }
 
-function agregar(i){
-    carrito.push(productos[i]);
-    actualizar();
+function cerrarModal(){modal.classList.add("oculto");}
+
+function agregarCarrito(){
+let cant=parseInt(cantidad.value);
+carrito.push({...actualProducto,cantidad:cant});
+cerrarModal();
+alert("Agregado");
 }
 
-function actualizar(){
-    let lista = document.getElementById("lista");
-    let total = 0;
-
-    lista.innerHTML = "";
-
-    carrito.forEach(p=>{
-        total += p.precio;
-        lista.innerHTML += `<p>${p.nombre} - $${p.precio}</p>`;
-    });
-
-    document.getElementById("total").innerText = total;
-    document.getElementById("contador").innerText = carrito.length;
-}
-
-function toggleCarrito(){
-    document.getElementById("carrito").classList.toggle("oculto");
+function mostrarCarrito(){
+let cont=document.getElementById("items");
+let total=0;
+cont.innerHTML="";
+carrito.forEach(p=>{
+total+=p.precio*p.cantidad;
+cont.innerHTML+=`<p>${p.nombre} x${p.cantidad}</p>`;
+});
+document.getElementById("total").innerText=total;
 }
 
 function enviarPedido(){
-    let envoltorio = parseInt(document.getElementById("envoltorio").value);
-    let total = parseInt(document.getElementById("total").innerText) + envoltorio;
-
-    let msg = "Hola! Quiero este ramo:%0A";
-
-    carrito.forEach(p=>{
-        msg += `${p.nombre} - $${p.precio}%0A`;
-    });
-
-    msg += `%0AEnvoltorio: $${envoltorio}`;
-    msg += `%0ATotal: $${total}`;
-
-    window.open(`https://wa.me/5492942338718?text=${msg}`);
-}
-
-document.getElementById("buscador").addEventListener("input", function(){
-    let texto = this.value.toLowerCase();
-    let filtrados = productos.filter(p => p.nombre.toLowerCase().includes(texto));
-    render(filtrados);
+let texto="Pedido:%0A";
+carrito.forEach(p=>{
+texto+=`${p.nombre} x${p.cantidad}%0A`;
 });
 
-render(productos);
+texto+=`Nombre:${nombre.value}%0A`;
+texto+=`Tel:${telefono.value}%0A`;
+texto+=`Dir:${direccion.value}`;
+
+window.open("https://wa.me/?text="+texto);
+}
+
+/* ADMIN */
+function abrirAdmin(){admin.classList.remove("oculto");}
+
+function login(){
+if(pass.value==="1234"){
+panel.classList.remove("oculto");
+}
+}
+
+function agregarProducto(){
+productos.push({
+nombre:nuevoNombre.value,
+precio:parseInt(nuevoPrecio.value),
+img:nuevoImg.value
+});
+cargar();
+}
+
+function cargarAdmin(){
+let cont=document.getElementById("listaAdmin");
+cont.innerHTML="";
+productos.forEach((p,i)=>{
+cont.innerHTML+=`<p>${p.nombre} $${p.precio}</p>`;
+});
+}
+
+cargar();
 
 </script>
 
